@@ -1,39 +1,26 @@
 import smtplib
 from email.message import EmailMessage
-from pathlib import Path      # רק אם תרצה צרופות
+import os
 
-# ========= הגדרות =========
-EMAIL      = "הכתובת-שלך@gmail.com"
-APP_PASS   = "ueeicwrdprwwrzzq"          # סיסמת-האפליקציה שהפקת
-SMTP_HOST  = "smtp.gmail.com"
-SMTP_PORT  = 465                        # SSL
+# --- הגדרות קבועות ---
+EMAIL     = "youraddress@gmail.com"          # חשבון השולח
+APP_PASS  = os.environ.get("APP_PASS", "")   # סיסמת-אפליקציה (או להדביק ישירות)
 
-TO         = "someone@example.com"
-SUBJECT    = "בדיקה"
-BODY       = "שלום! זהו מייל בדיקה ✉️"
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 465          #  SSL
 
-ATTACHMENTS = [
-    # Path("docs/report.pdf"),
-    # Path("images/pic.jpg"),
-]
+TO       = "someone@example.com"
+SUBJECT  = "בדיקה"
+BODY     = "שלום! זה מייל בדיקה ✉️"
 
-# ========= בניית ההודעה =========
+# --- בניית ההודעה ---
 msg = EmailMessage()
-msg["From"] = EMAIL
-msg["To"]   = TO
+msg["From"]    = EMAIL
+msg["To"]      = TO
 msg["Subject"] = SUBJECT
 msg.set_content(BODY)
 
-for file_path in ATTACHMENTS:
-    data = file_path.read_bytes()
-    msg.add_attachment(
-        data,
-        maintype="application",
-        subtype="octet-stream",
-        filename=file_path.name,
-    )
-
-# ========= שליחה =========
+# --- שליחה ---
 with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as smtp:
     smtp.login(EMAIL, APP_PASS)
     smtp.send_message(msg)
