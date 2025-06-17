@@ -1,14 +1,14 @@
 import requests, json
 
-url = "https://script.googleusercontent.com/macros/s/AKfycb…/exec"
+url = "https://script.googleusercontent.com/macros/s/AKfycb…/exec"  # כתובת ה-Web App שלך
 
 payload = {
   "action": "sendEmail",
   "params": {
-    "to":     "someone@example.com",
-    "subject":"בדיקה",
-    "body":   "שלום! זה נשלח מהסוכן 🎉",
-    "attachmentIds": []      # או ["1AbcDEF…"] אם תרצה לצרף קובץ מגוגל-דרייב
+    "to": "someone@example.com",
+    "subject": "בדיקה",
+    "body": "שלום! הודעת מבחן 🎉",
+    "attachmentIds": []   # אם תרצה לצרף קובץ Drive, הכנס כאן את ה-ID שלו
   }
 }
 
