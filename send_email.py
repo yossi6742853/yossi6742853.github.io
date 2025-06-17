@@ -3,8 +3,8 @@ from email.message import EmailMessage
 import os
 
 # --- הגדרות קבועות ---
-EMAIL     = "youraddress@gmail.com"          # חשבון השולח
-APP_PASS  = os.environ.get("APP_PASS", "")   # סיסמת-אפליקציה (או להדביק ישירות)
+EMAIL     = "6742853@gmail.com"          # חשבון השולח
+APP_PASS  = os.environ.get("ueeicwrdprwwrzzq", "")   # סיסמת-אפליקציה (או להדביק ישירות)
 
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465          #  SSL
