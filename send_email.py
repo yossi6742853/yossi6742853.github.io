@@ -1,16 +1,41 @@
-import requests, json
+import smtplib
+from email.message import EmailMessage
+from pathlib import Path      # רק אם תרצה צרופות
 
-url = "https://script.googleusercontent.com/macros/s/AKfycb…/exec"  # כתובת ה-Web App שלך
+# ========= הגדרות =========
+EMAIL      = "הכתובת-שלך@gmail.com"
+APP_PASS   = "ueeicwrdprwwrzzq"          # סיסמת-האפליקציה שהפקת
+SMTP_HOST  = "smtp.gmail.com"
+SMTP_PORT  = 465                        # SSL
 
-payload = {
-  "action": "sendEmail",
-  "params": {
-    "to": "someone@example.com",
-    "subject": "בדיקה",
-    "body": "שלום! הודעת מבחן 🎉",
-    "attachmentIds": []   # אם תרצה לצרף קובץ Drive, הכנס כאן את ה-ID שלו
-  }
-}
+TO         = "someone@example.com"
+SUBJECT    = "בדיקה"
+BODY       = "שלום! זהו מייל בדיקה ✉️"
 
-res = requests.post(url, json=payload)
-print(res.json())   # אמור להחזיר { "ok": true }
+ATTACHMENTS = [
+    # Path("docs/report.pdf"),
+    # Path("images/pic.jpg"),
+]
+
+# ========= בניית ההודעה =========
+msg = EmailMessage()
+msg["From"] = EMAIL
+msg["To"]   = TO
+msg["Subject"] = SUBJECT
+msg.set_content(BODY)
+
+for file_path in ATTACHMENTS:
+    data = file_path.read_bytes()
+    msg.add_attachment(
+        data,
+        maintype="application",
+        subtype="octet-stream",
+        filename=file_path.name,
+    )
+
+# ========= שליחה =========
+with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as smtp:
+    smtp.login(EMAIL, APP_PASS)
+    smtp.send_message(msg)
+
+print("✓ המייל נשלח בהצלחה")
